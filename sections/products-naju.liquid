@@ -1,0 +1,134 @@
+<section class="naju-section">
+  <div class="naju-container">
+    <div class="naju-section__head naju-row">
+      <div>
+        <h2 class="naju-h2">{{ section.settings.title }}</h2>
+        {% if section.settings.subtitle != blank %}
+          <p class="naju-muted">{{ section.settings.subtitle }}</p>
+        {% endif %}
+      </div>
+
+      {% if section.settings.show_view_all
+        and section.settings.mode == 'collection'
+        and section.settings.collection != blank
+      %}
+        <a class="naju-link" href="{{ section.settings.collection.url }}">Ver tudo</a>
+      {% endif %}
+    </div>
+
+    {% if section.settings.mode == 'manual' %}
+      {% if section.blocks.size == 0 %}
+        <div class="naju-empty">Adicione blocos de produto (Produtos manuais) nesta seção.</div>
+      {% else %}
+        <div class="naju-grid">
+          {% for block in section.blocks %}
+            {% assign product = block.settings.product %}
+            {% if product != blank %}
+              <a class="naju-pcard" href="{{ product.url }}" {{ block.shopify_attributes }}>
+                <div class="naju-pcard__media">
+                  {% if product.featured_image != blank %}
+                    <img
+                      src="{{ product.featured_image | image_url: width: 900 }}"
+                      alt="{{ product.title | escape }}"
+                      loading="lazy"
+                    >
+                  {% endif %}
+                  {% if product.compare_at_price > product.price %}
+                    <span class="naju-badge">Oferta</span>
+                  {% endif %}
+                </div>
+
+                <div class="naju-pcard__body">
+                  <div class="naju-pcard__title">{{ product.title }}</div>
+                  <div class="naju-pcard__price">
+                    {{ product.price | money }}
+                    {% if product.compare_at_price > product.price %}
+                      <span class="naju-pcard__compare">{{ product.compare_at_price | money }}</span>
+                    {% endif %}
+                  </div>
+                </div>
+              </a>
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% endif %}
+
+    {% else %}
+      {% if section.settings.collection == blank %}
+        <div class="naju-empty">Selecione uma coleção no editor para mostrar produtos.</div>
+      {% else %}
+        <div class="naju-grid">
+          {% assign limit = section.settings.limit | default: 8 %}
+          {% for product in section.settings.collection.products limit: limit %}
+            <a class="naju-pcard" href="{{ product.url }}">
+              <div class="naju-pcard__media">
+                {% if product.featured_image != blank %}
+                  <img
+                    src="{{ product.featured_image | image_url: width: 900 }}"
+                    alt="{{ product.title | escape }}"
+                    loading="lazy"
+                  >
+                {% endif %}
+                {% if product.compare_at_price > product.price %}
+                  <span class="naju-badge">Oferta</span>
+                {% endif %}
+              </div>
+
+              <div class="naju-pcard__body">
+                <div class="naju-pcard__title">{{ product.title }}</div>
+                <div class="naju-pcard__price">
+                  {{ product.price | money }}
+                  {% if product.compare_at_price > product.price %}
+                    <span class="naju-pcard__compare">{{ product.compare_at_price | money }}</span>
+                  {% endif %}
+                </div>
+              </div>
+            </a>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Products Naju",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Título", "default": "Produtos em destaque" },
+    { "type": "text", "id": "subtitle", "label": "Subtítulo", "default": "Seleção do momento." },
+
+    {
+      "type": "select",
+      "id": "mode",
+      "label": "Fonte dos produtos",
+      "default": "collection",
+      "options": [
+        { "value": "collection", "label": "Coleção" },
+        { "value": "manual", "label": "Produtos manuais" }
+      ]
+    },
+
+    { "type": "collection", "id": "collection", "label": "Coleção (quando modo = Coleção)" },
+    {
+      "type": "range",
+      "id": "limit",
+      "label": "Quantidade (modo = Coleção)",
+      "min": 4,
+      "max": 12,
+      "step": 1,
+      "default": 8
+    },
+    { "type": "checkbox", "id": "show_view_all", "label": "Mostrar link 'Ver tudo'", "default": true }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Produto",
+      "settings": [{ "type": "product", "id": "product", "label": "Produto" }]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [{ "name": "Products Naju" }]
+}
+{% endschema %}

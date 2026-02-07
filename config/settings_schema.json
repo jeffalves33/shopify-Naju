@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Identidade",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo Naju Smart"
+      },
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Ícone do site (favicon)"
+      }
+    ]
+  }
+]

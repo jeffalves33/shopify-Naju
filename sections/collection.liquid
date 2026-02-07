@@ -1,0 +1,113 @@
+<section class="naju-collection">
+  <div class="naju-container">
+    <header class="naju-collection__head">
+      <div>
+        <h1 class="naju-collection__title">{{ collection.title }}</h1>
+        {% if collection.description != blank %}
+          <div class="naju-collection__desc">{{ collection.description }}</div>
+        {% endif %}
+      </div>
+
+      <div class="naju-collection__tools">
+        <label class="naju-select">
+          <span class="naju-select__label">Ordenar</span>
+          <select id="SortBy" class="naju-select__field">
+            {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
+            {% for option in collection.sort_options %}
+              {% assign label = option.name %}
+
+              {% case option.value %}
+                {% when 'manual' -%}
+                  {%- assign label = 'Destaques' %}
+                {% when 'best-selling' -%}
+                  {%- assign label = 'Mais vendidos' %}
+                {% when 'title-ascending' -%}
+                  {%- assign label = 'Nome: A-Z' %}
+                {% when 'title-descending' -%}
+                  {%- assign label = 'Nome: Z-A' %}
+                {% when 'price-ascending' -%}
+                  {%- assign label = 'Preço: menor para maior' %}
+                {% when 'price-descending' -%}
+                  {%- assign label = 'Preço: maior para menor' %}
+                {% when 'created-ascending' -%}
+                  {%- assign label = 'Data: antigo para novo' %}
+                {% when 'created-descending' -%}
+                  {%- assign label = 'Data: novo para antigo' %}
+              {% endcase %}
+
+              <option
+                value="{{ option.value }}"
+                {% if option.value == sort_by %}
+                  selected
+                {% endif %}
+              >
+                {{ label }}
+              </option>
+            {% endfor %}
+          </select>
+        </label>
+      </div>
+    </header>
+
+    {% paginate collection.products by 12 %}
+      <div class="naju-grid">
+        {% for product in collection.products %}
+          <a class="naju-card" href="{{ product.url | within: collection }}">
+            <div class="naju-card__media">
+              {% if product.featured_image %}
+                <img
+                  src="{{ product.featured_image | image_url: width: 900 }}"
+                  alt="{{ product.title | escape }}"
+                  loading="lazy"
+                >
+              {% else %}
+                <div class="naju-card__placeholder"></div>
+              {% endif %}
+            </div>
+
+            <div class="naju-card__body">
+              <div class="naju-card__title">{{ product.title }}</div>
+
+              <div class="naju-card__price">
+                {% if product.compare_at_price > product.price %}
+                  <span class="naju-price--old">{{ product.compare_at_price | money }}</span>
+                {% endif %}
+                <span class="naju-price--now">{{ product.price | money }}</span>
+              </div>
+
+              <div class="naju-card__cta">Ver detalhes</div>
+            </div>
+          </a>
+        {% endfor %}
+      </div>
+
+      {% if paginate.pages > 1 %}
+        <nav class="naju-pagination" role="navigation" aria-label="Paginação">
+          {% if paginate.previous %}
+            <a class="naju-page" href="{{ paginate.previous.url }}">Anterior</a>
+          {% endif %}
+
+          <span class="naju-page naju-page--info"> Página {{ paginate.current_page }} de {{ paginate.pages }} </span>
+
+          {% if paginate.next %}
+            <a class="naju-page" href="{{ paginate.next.url }}">Próxima</a>
+          {% endif %}
+        </nav>
+      {% endif %}
+    {% endpaginate %}
+  </div>
+</section>
+
+<script>
+  // Ordenação nativa do Shopify (sem app)
+  (function () {
+    var sel = document.getElementById('SortBy');
+    if (!sel) return;
+
+    sel.addEventListener('change', function () {
+      var url = new URL(window.location.href);
+      url.searchParams.set('sort_by', sel.value);
+      window.location.href = url.toString();
+    });
+  })();
+</script>

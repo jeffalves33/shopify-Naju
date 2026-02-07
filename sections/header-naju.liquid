@@ -1,0 +1,68 @@
+<header class="naju-header">
+  <div class="naju-header__inner">
+    <a class="naju-brand" href="{{ routes.root_url }}">
+      {% if settings.logo %}
+        <img
+          src="{{ settings.logo | image_url: width: 220 }}"
+          alt="{{ shop.name | escape }}"
+          class="naju-brand__logo"
+          width="220"
+          height="60"
+          loading="eager"
+        >
+      {% else %}
+        <span class="naju-brand__text">{{ shop.name }}</span>
+      {% endif %}
+    </a>
+
+    <button class="naju-menu-toggle" aria-label="Abrir menu" aria-expanded="false">☰</button>
+
+    <div class="naju-mobile-menu" id="najuMobileMenu">
+      <nav class="naju-nav" aria-label="Categorias">
+        {% if section.settings.menu != blank %}
+          {% for link in linklists[section.settings.menu].links %}
+            <a class="naju-nav__link" href="{{ link.url }}">{{ link.title }}</a>
+          {% endfor %}
+        {% endif %}
+      </nav>
+
+      <div class="naju-actions">
+        <a class="naju-actions__link" href="{{ routes.search_url }}">Busca</a>
+        {% if customer %}
+          <a href="{{ routes.account_url }}">Minha conta</a>
+        {% else %}
+          <a href="{{ routes.account_login_url }}">Entrar</a>
+        {% endif %}
+        <a class="naju-actions__link" href="{{ routes.cart_url }}">Carrinho</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header Naju",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu do header"
+    }
+  ],
+  "presets": [{ "name": "Header Naju" }]
+}
+{% endschema %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const toggle = document.querySelector('.naju-menu-toggle');
+    const menu = document.getElementById('najuMobileMenu');
+
+    if (!toggle || !menu) return;
+
+    toggle.addEventListener('click', () => {
+      const open = menu.classList.toggle('is-open');
+      toggle.setAttribute('aria-expanded', open);
+    });
+  });
+</script>

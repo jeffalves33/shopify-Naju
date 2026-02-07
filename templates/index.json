@@ -1,0 +1,22 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero-naju"
+    },
+    "categories": {
+      "type": "categories-naju"
+    },
+    "products": {
+      "type": "products-naju"
+    },
+    "benefits": {
+      "type": "benefits-naju"
+    }
+  },
+  "order": [
+    "hero",
+    "categories",
+    "products",
+    "benefits"
+  ]
+}

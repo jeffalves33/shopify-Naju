@@ -1,0 +1,201 @@
+<footer class="naju-footer">
+  <div class="naju-container naju-footer__grid">
+    <!-- Coluna 1: Marca -->
+    <div class="naju-footer__col">
+      <div class="naju-footer__brand">
+        {% if settings.logo != blank %}
+          <img
+            class="naju-footer__logo"
+            src="{{ settings.logo | image_url: width: 240 }}"
+            alt="{{ shop.name | escape }}"
+            loading="lazy"
+          >
+        {% else %}
+          <div class="naju-footer__name">{{ shop.name }}</div>
+        {% endif %}
+      </div>
+
+      {% if section.settings.about != blank %}
+        <p class="naju-footer__text">{{ section.settings.about }}</p>
+      {% endif %}
+
+      {% if section.settings.whatsapp_number != blank %}
+        <a
+          class="naju-footer__cta"
+          href="https://wa.me/{{ section.settings.whatsapp_number | remove: ' ' | remove: '(' | remove: ')' | remove: '-' }}"
+          target="_blank"
+          rel="noopener"
+        >
+          Atendimento no WhatsApp
+        </a>
+      {% endif %}
+    </div>
+
+    <!-- Coluna 2: Categorias 
+    <div class="naju-footer__col">
+      <div class="naju-footer__title">{{ section.settings.menu_title_1 }}</div>
+      {% if section.settings.menu_1 != blank %}
+        <ul class="naju-footer__links">
+          {% for link in linklists[section.settings.menu_1].links %}
+            <li>
+              <a href="{{ link.url }}">{{ link.title }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </div>-->
+
+    <!-- Coluna 3: Institucional 
+    <div class="naju-footer__col">
+      <div class="naju-footer__title">{{ section.settings.menu_title_2 }}</div>
+      {% if section.settings.menu_2 != blank %}
+        <ul class="naju-footer__links">
+          {% for link in linklists[section.settings.menu_2].links %}
+            <li>
+              <a href="{{ link.url }}">{{ link.title }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </div>-->
+
+    <!-- Coluna 4: Ajuda / Newsletter / Social -->
+    <div class="naju-footer__col">
+      <div class="naju-footer__title">{{ section.settings.menu_title_3 }}</div>
+
+      {% if section.settings.menu_3 != blank %}
+        <ul class="naju-footer__links">
+          {% for link in linklists[section.settings.menu_3].links %}
+            <li>
+              <a href="{{ link.url }}">{{ link.title }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+
+      {% if section.settings.show_newsletter %}
+        <div class="naju-footer__newsletter">
+          <div class="naju-footer__subtitle">{{ section.settings.newsletter_title }}</div>
+          {% form 'customer', class: 'naju-footer__form' %}
+            <input type="hidden" name="contact[tags]" value="newsletter">
+            <input
+              class="naju-footer__input"
+              type="email"
+              name="contact[email]"
+              placeholder="Seu e-mail"
+              required
+              autocorrect="off"
+              autocapitalize="off"
+            >
+            <button class="naju-footer__btn" type="submit">Assinar</button>
+          {% endform %}
+          {% if section.settings.newsletter_hint != blank %}
+            <div class="naju-footer__hint">{{ section.settings.newsletter_hint }}</div>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      <div class="naju-footer__social">
+        {% if settings.social_instagram_link != blank %}
+          <a
+            class="naju-social"
+            href="{{ settings.social_instagram_link }}"
+            target="_blank"
+            rel="noopener"
+            aria-label="Instagram"
+          >
+            <span class="naju-social__icon">{% render 'icon-instagram-naju' %}</span>
+            <span>Instagram</span>
+          </a>
+        {% endif %}
+        {% if settings.social_facebook_link != blank %}
+          <a
+            class="naju-social"
+            href="{{ settings.social_facebook_link }}"
+            target="_blank"
+            rel="noopener"
+            aria-label="Facebook"
+          >
+            <span class="naju-social__icon">{% render 'icon-facebook-naju' %}</span>
+            <span>Facebook</span>
+          </a>
+        {% endif %}
+        {% if settings.social_tiktok_link != blank %}
+          <a
+            class="naju-social"
+            href="{{ settings.social_tiktok_link }}"
+            target="_blank"
+            rel="noopener"
+            aria-label="TikTok"
+          >
+            <span class="naju-social__icon">{% render 'icon-tiktok-naju' %}</span>
+            <span>TikTok</span>
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="naju-footer__bottom">
+    <div class="naju-container naju-footer__bottom-inner">
+      <div class="naju-footer__copy">
+        © {{ 'now' | date: '%Y' }}
+        {{ shop.name -}}
+        {%- if section.settings.legal_line != blank %} — {{ section.settings.legal_line }}{% endif %}
+      </div>
+
+      <div class="naju-footer__mini">
+        {% if section.settings.payments_line != blank %}
+          <span>{{ section.settings.payments_line }}</span>
+        {% endif %}
+        {% if section.settings.shipping_line != blank %}
+          <span>{{ section.settings.shipping_line }}</span>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer Naju",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "about",
+      "label": "Texto institucional",
+      "default": "Smartphones e acessórios com procedência, garantia e atendimento real."
+    },
+
+    { "type": "text", "id": "whatsapp_number", "label": "WhatsApp (somente números com DDI e DDD)", "default": "55" },
+
+    { "type": "text", "id": "menu_title_1", "label": "Título menu 1", "default": "Categorias" },
+    { "type": "link_list", "id": "menu_1", "label": "Menu 1" },
+
+    { "type": "text", "id": "menu_title_2", "label": "Título menu 2", "default": "Institucional" },
+    { "type": "link_list", "id": "menu_2", "label": "Menu 2" },
+
+    { "type": "text", "id": "menu_title_3", "label": "Título menu 3", "default": "Ajuda" },
+    { "type": "link_list", "id": "menu_3", "label": "Menu 3" },
+
+    { "type": "checkbox", "id": "show_newsletter", "label": "Mostrar newsletter", "default": true },
+    {
+      "type": "text",
+      "id": "newsletter_title",
+      "label": "Título newsletter",
+      "default": "Receba ofertas e lançamentos"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_hint",
+      "label": "Texto pequeno",
+      "default": "Sem spam. Você pode sair quando quiser."
+    },
+
+    { "type": "text", "id": "legal_line", "label": "Linha legal (CNPJ/Endereço opcional)", "default": "CNPJ 00.000.000/0000-00" },
+    { "type": "text", "id": "payments_line", "label": "Linha pagamentos", "default": "Pix • Cartão • Boleto" },
+    { "type": "text", "id": "shipping_line", "label": "Linha entrega", "default": "Envio rápido • Código de rastreio" }
+  ],
+  "presets": [{ "name": "Footer Naju" }]
+}
+{% endschema %}

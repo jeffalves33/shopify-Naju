@@ -1,0 +1,81 @@
+<section class="naju-hero">
+  <div class="naju-hero__wrap">
+    <div>
+      <div class="naju-hero__kicker">
+        <span class="naju-dot"></span>
+        Tecnologia com procedência e garantia
+      </div>
+
+      <h1>
+        Tecnologia<br>
+        <span class="naju-highlight">do jeito certo</span>
+      </h1>
+
+      <p class="naju-hero__desc">Smartphones, acessórios e eletrônicos com garantia, procedência e atendimento real.</p>
+
+      <div class="naju-hero__cta">
+        <a class="btn-primary" href="/collections/all">Ver produtos</a>
+        <a class="btn-secondary" href="/collections/all">Ver ofertas</a>
+      </div>
+    </div>
+
+    <div class="naju-hero__media" data-naju-hero data-interval="{{ section.settings.slide_interval | default: 4500 }}">
+      <div class="naju-hero__slides">
+        {% assign has_slide = false %}
+
+        {% for block in section.blocks %}
+          {% if block.type == 'slide' and block.settings.image != blank %}
+            {% assign has_slide = true %}
+            <img
+              class="naju-hero__slide {% if forloop.first %}is-active{% endif %}"
+              src="{{ block.settings.image | image_url: width: 2000 }}"
+              alt="{{ block.settings.alt | escape }}"
+              loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+            >
+          {% endif %}
+        {% endfor %}
+
+        {% unless has_slide %}
+          <img class="naju-hero__slide is-active" src="{{ 'hero-1.jpg' | asset_url }}" alt="Banner Naju Smart">
+        {% endunless %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function () {
+    const root = document.querySelector('[data-naju-hero]');
+    if (!root) return;
+
+    const slides = root.querySelectorAll('.naju-hero__slide');
+    if (!slides || slides.length <= 1) return;
+
+    let i = 0;
+    const intervalMs = 3500;
+
+    setInterval(() => {
+      slides[i].classList.remove('is-active');
+      i = (i + 1) % slides.length;
+      slides[i].classList.add('is-active');
+    }, intervalMs);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Hero Naju",
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide (imagem)",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Imagem" },
+        { "type": "text", "id": "alt", "label": "Texto alternativo", "default": "Produto em destaque" }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [{ "name": "Hero Naju" }]
+}
+{% endschema %}

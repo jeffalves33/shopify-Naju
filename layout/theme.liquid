@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      {{ page_title }}
+      | Naju Smart
+    </title>
+    {{ content_for_header }}
+    {{ 'grid.css' | asset_url | stylesheet_tag }}
+    {{ 'theme.css' | asset_url | stylesheet_tag }}
+    {{ 'theme.js' | asset_url | script_tag }}
+    {% if settings.favicon %}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url }}">
+    {% endif %}
+  </head>
+
+  <body>
+    {% section 'header-naju' %}
+    <main>
+      {{ content_for_layout }}
+    </main>
+    {% section 'footer-naju' %}
+
+    <a
+      class="naju-wa"
+      href="https://wa.me/55SEUNUMEROAQUI?text=Ol%C3%A1%21%20Quero%20tirar%20uma%20d%C3%BAvida."
+      target="_blank"
+      rel="noopener"
+      aria-label="WhatsApp"
+    >
+      <span class="naju-wa__dot"></span>
+      WhatsApp
+    </a>
+  </body>
+</html>

@@ -1,0 +1,76 @@
+<section class="naju-section">
+  <div class="naju-container">
+    <div class="naju-section__head">
+      <h2 class="naju-h2">{{ section.settings.title }}</h2>
+      {% if section.settings.subtitle != blank %}
+        <p class="naju-muted">{{ section.settings.subtitle }}</p>
+      {% endif %}
+    </div>
+
+    <div class="naju-cats">
+      {% for block in section.blocks %}
+        {% assign col = block.settings.collection %}
+
+        <a
+          class="naju-cat"
+          href="{% if col != blank %}{{ col.url }}{% else %}#{% endif %}"
+          {{ block.shopify_attributes }}
+        >
+          {% assign img = block.settings.image %}
+          {% if img == blank and col != blank and col.featured_image != blank %}
+            {% assign img = col.featured_image %}
+          {% endif %}
+
+          {% if img != blank %}
+            <img
+              class="naju-cat__img"
+              src="{{ img | image_url: width: 1200 }}"
+              alt="{% if block.settings.title != blank %}{{ block.settings.title | escape }}{% elsif col != blank %}{{ col.title | escape }}{% else %}Categoria{% endif %}"
+              loading="lazy"
+            >
+          {% endif %}
+
+          <div class="naju-cat__body">
+            <div class="naju-cat__title">
+              {% if block.settings.title != blank %}
+                {{ block.settings.title }}
+              {% elsif col != blank %}
+                {{ col.title }}
+              {% else %}
+                Categoria
+              {% endif %}
+            </div>
+
+            {% if block.settings.desc != blank %}
+              <div class="naju-cat__desc">{{ block.settings.desc }}</div>
+            {% endif %}
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Naju - Categorias",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Título", "default": "Categorias" },
+    { "type": "text", "id": "subtitle", "label": "Subtítulo", "default": "Encontre rápido o que você precisa." }
+  ],
+  "blocks": [
+    {
+      "type": "cat",
+      "name": "Categoria",
+      "settings": [
+        { "type": "collection", "id": "collection", "label": "Coleção" },
+        { "type": "text", "id": "title", "label": "Título (opcional)" },
+        { "type": "text", "id": "desc", "label": "Descrição (opcional)" },
+        { "type": "image_picker", "id": "image", "label": "Imagem (opcional)" }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [{ "name": "Naju - Categorias" }]
+}
+{% endschema %}

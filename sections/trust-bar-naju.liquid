@@ -1,0 +1,30 @@
+<section class="naju-section naju-section--tight">
+  <div class="naju-container">
+    <div class="naju-trust">
+      {% for block in section.blocks %}
+        <div class="naju-trust__item" {{ block.shopify_attributes }}>
+          <div class="naju-trust__title">{{ block.settings.title }}</div>
+          <div class="naju-trust__desc">{{ block.settings.desc }}</div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Naju - Barra de confiança",
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Item",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Título", "default": "Garantia real" },
+        { "type": "text", "id": "desc", "label": "Descrição", "default": "Produtos testados e com procedência." }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [{ "name": "Naju - Barra de confiança" }]
+}
+{% endschema %}

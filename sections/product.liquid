@@ -1,0 +1,157 @@
+<section class="naju-product">
+  <div class="naju-container">
+    <div class="naju-product__wrap">
+      
+      <!-- GALERIA DE IMAGENS -->
+      <div class="naju-gallery">
+        <div class="naju-gallery__main">
+          <img 
+            id="mainImage" 
+            src="{{ product.featured_image | image_url: width: 1000 }}" 
+            alt="{{ product.title | escape }}"
+          >
+        </div>
+        
+        {% if product.images.size > 1 %}
+          <div class="naju-gallery__thumbs">
+            {% for image in product.images %}
+              <div class="naju-thumb {% if forloop.first %}is-active{% endif %}" data-index="{{ forloop.index0 }}">
+                <img 
+                  src="{{ image | image_url: width: 200 }}" 
+                  alt="{{ product.title | escape }}"
+                  data-full="{{ image | image_url: width: 1000 }}"
+                >
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- INFORMAÇÕES DO PRODUTO -->
+      <div class="naju-product__info">
+        <h1 class="naju-product__title">{{ product.title }}</h1>
+
+        <div class="naju-product__price">
+          <span class="naju-price-main">{{ product.price | money }}</span>
+          {% if product.compare_at_price > product.price %}
+            <span class="naju-price-compare">{{ product.compare_at_price | money }}</span>
+          {% endif %}
+        </div>
+
+        {% if product.description != blank %}
+          <div class="naju-product__desc">
+            {{ product.description }}
+          </div>
+        {% endif %}
+
+        {% form 'product', product, id: 'product-form' %}
+          {% assign current_variant = product.selected_or_first_available_variant %}
+
+          {% if product.variants.size > 1 %}
+            <div class="naju-variant">
+              <label class="naju-variant__label">Escolha uma opção:</label>
+              <select name="id" id="product-select" style="display: none;">
+                {% for variant in product.variants %}
+                  <option 
+                    value="{{ variant.id }}"
+                    {% if variant == current_variant %}selected{% endif %}
+                  >
+                    {{ variant.title }}
+                  </option>
+                {% endfor %}
+              </select>
+              
+              <div class="naju-variant__options" id="variant-options">
+                {% for variant in product.variants %}
+                  <div 
+                    class="naju-variant__option {% if variant == current_variant %}is-active{% endif %}"
+                    data-variant-id="{{ variant.id }}"
+                  >
+                    {{ variant.title }}
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          {% endif %}
+
+          <div class="naju-qty">
+            <label class="naju-qty__label" for="quantity">Quantidade:</label>
+            <input 
+              type="number" 
+              name="quantity" 
+              id="quantity" 
+              value="1" 
+              min="1"
+              class="naju-qty__input"
+            >
+          </div>
+
+          <div class="naju-cta-group">
+            <button type="submit" class="naju-btn naju-btn--primary">
+              Adicionar ao carrinho
+            </button>
+            {{ form | payment_button }}
+          </div>
+        {% endform %}
+
+        {% comment %} ESPECIFICAÇÕES (exemplo - customize conforme necessário) {% endcomment %}
+        <div class="naju-specs">
+          <div class="naju-specs__title">Especificações:</div>
+          <ul class="naju-specs__list">
+            <li>Chip A18 Bionic</li>
+            <li>Câmera 48MP + Ultra Wide</li>
+            <li>Tela 6,1" Super Retina XDR</li>
+            <li>Resistência IP68</li>
+            <li>5G</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+  // TROCA DE IMAGEM NA GALERIA
+  (function() {
+    const mainImage = document.getElementById('mainImage');
+    const thumbs = document.querySelectorAll('.naju-thumb');
+
+    thumbs.forEach(thumb => {
+      thumb.addEventListener('click', function() {
+        const fullUrl = this.querySelector('img').dataset.full;
+        mainImage.src = fullUrl;
+
+        thumbs.forEach(t => t.classList.remove('is-active'));
+        this.classList.add('is-active');
+      });
+    });
+
+    // SELEÇÃO DE VARIANTES
+    const variantOptions = document.querySelectorAll('.naju-variant__option');
+    const selectElement = document.getElementById('product-select');
+
+    variantOptions.forEach(option => {
+      option.addEventListener('click', function() {
+        const variantId = this.dataset.variantId;
+        
+        variantOptions.forEach(opt => opt.classList.remove('is-active'));
+        this.classList.add('is-active');
+        
+        if (selectElement) {
+          selectElement.value = variantId;
+        }
+      });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Product",
+  "settings": [],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}
