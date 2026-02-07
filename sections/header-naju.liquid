@@ -1,5 +1,18 @@
 <header class="naju-header">
-  <div class="naju-header__inner">
+  <div class="container naju-header__inner">
+    <!-- MOBILE: esquerda (☰ + buscar) -->
+    <div class="naju-header__left">
+      <button class="naju-menu-toggle" aria-label="Abrir menu" aria-expanded="false">☰</button>
+
+      <a class="naju-header__icon naju-header__icon--search-mobile" href="{{ routes.search_url }}" aria-label="Buscar">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="currentColor" stroke-width="2"/>
+          <path d="M16.5 16.5 21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </a>
+    </div>
+
+    <!-- Logo (desktop: esquerda | mobile: centro) -->
     <a class="naju-brand" href="{{ routes.root_url }}">
       {% if settings.logo %}
         <img
@@ -15,26 +28,53 @@
       {% endif %}
     </a>
 
-    <button class="naju-menu-toggle" aria-label="Abrir menu" aria-expanded="false">☰</button>
+    <!-- DESKTOP: centro (categorias) -->
+    <nav class="naju-nav naju-nav--desktop" aria-label="Categorias">
+      {% if section.settings.menu != blank %}
+        {% for link in linklists[section.settings.menu].links %}
+          <a class="naju-nav__link" href="{{ link.url }}">{{ link.title }}</a>
+        {% endfor %}
+      {% endif %}
+    </nav>
 
+    <!-- Direita (mobile: entrar + carrinho | desktop: entrar + carrinho + buscar) -->
+    <div class="naju-header__right">
+      <a
+        class="naju-header__icon"
+        href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}"
+        aria-label="Entrar"
+      >
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M20 21a8 8 0 1 0-16 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" stroke="currentColor" stroke-width="2"/>
+        </svg>
+      </a>
+
+      <a class="naju-header__icon" href="{{ routes.cart_url }}" aria-label="Carrinho">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M6 6h15l-1.5 9h-12L6 6Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+          <path d="M6 6 5 3H2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <path d="M9 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2Zm9 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" fill="currentColor"/>
+        </svg>
+      </a>
+
+      <a class="naju-header__icon naju-header__icon--search-desktop" href="{{ routes.search_url }}" aria-label="Buscar">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="currentColor" stroke-width="2"/>
+          <path d="M16.5 16.5 21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </a>
+    </div>
+
+    <!-- Menu mobile (abre no ☰) -->
     <div class="naju-mobile-menu" id="najuMobileMenu">
-      <nav class="naju-nav" aria-label="Categorias">
+      <nav class="naju-nav naju-nav--mobile" aria-label="Categorias">
         {% if section.settings.menu != blank %}
           {% for link in linklists[section.settings.menu].links %}
             <a class="naju-nav__link" href="{{ link.url }}">{{ link.title }}</a>
           {% endfor %}
         {% endif %}
       </nav>
-
-      <div class="naju-actions">
-        <a class="naju-actions__link" href="{{ routes.search_url }}">Busca</a>
-        {% if customer %}
-          <a href="{{ routes.account_url }}">Minha conta</a>
-        {% else %}
-          <a href="{{ routes.account_login_url }}">Entrar</a>
-        {% endif %}
-        <a class="naju-actions__link" href="{{ routes.cart_url }}">Carrinho</a>
-      </div>
     </div>
   </div>
 </header>
