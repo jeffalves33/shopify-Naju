@@ -1,23 +1,50 @@
 /* =========================
-   GRID (12 col) - mínimo
+   GRID (Bootstrap-like)
+   Breakpoints: sm 576 | md 768 | lg 992
 ========================= */
 
 :root {
-    --gutter: 16px;
     --container: 1200px;
+    --gutter: 16px;
 }
 
-/* container */
-.container {
+@media (max-width: 420px) {
+    :root {
+        --gutter: 14px;
+    }
+}
+
+@media (min-width: 768px) {
+    :root {
+        --gutter: 20px;
+    }
+}
+
+@media (min-width: 992px) {
+    :root {
+        --gutter: 24px;
+    }
+}
+
+/* Containers */
+.container,
+.container-fluid {
     width: 100%;
-    max-width: var(--container);
     margin-left: auto;
     margin-right: auto;
     padding-left: var(--gutter);
     padding-right: var(--gutter);
 }
 
-/* row */
+.container {
+    max-width: var(--container);
+}
+
+.container-fluid {
+    max-width: none;
+}
+
+/* Row / Col */
 .row {
     display: flex;
     flex-wrap: wrap;
@@ -25,127 +52,308 @@
     margin-right: calc(var(--gutter) * -1);
 }
 
-/* col base */
-[class^="col-"] {
+/* IMPORTANTE: funciona mesmo se "col-*" NÃO for a primeira classe */
+.col,
+[class^="col-"],
+[class*=" col-"] {
     padding-left: var(--gutter);
     padding-right: var(--gutter);
     min-width: 0;
 }
 
-/* 12 col */
-.col-12 {
-    width: 100%;
+.col {
+    flex: 1 0 0%;
 }
 
-.col-11 {
-    width: 91.6667%;
+.col-auto {
+    flex: 0 0 auto;
+    width: auto;
 }
 
-.col-10 {
-    width: 83.3333%;
-}
-
-.col-9 {
-    width: 75%;
-}
-
-.col-8 {
-    width: 66.6667%;
-}
-
-.col-7 {
-    width: 58.3333%;
-}
-
-.col-6 {
-    width: 50%;
-}
-
-.col-5 {
-    width: 41.6667%;
-}
-
-.col-4 {
-    width: 33.3333%;
-}
-
-.col-3 {
-    width: 25%;
+/* Cols (base) */
+.col-1 {
+    flex: 0 0 auto;
+    width: 8.333333%;
 }
 
 .col-2 {
-    width: 16.6667%;
+    flex: 0 0 auto;
+    width: 16.666667%;
 }
 
-.col-1 {
-    width: 8.3333%;
+.col-3 {
+    flex: 0 0 auto;
+    width: 25%;
 }
 
-/* breakpoints (md=768, lg=1024) */
-@media (min-width: 768px) {
-    .col-md-12 {
-        width: 100%;
+.col-4 {
+    flex: 0 0 auto;
+    width: 33.333333%;
+}
+
+.col-5 {
+    flex: 0 0 auto;
+    width: 41.666667%;
+}
+
+.col-6 {
+    flex: 0 0 auto;
+    width: 50%;
+}
+
+.col-7 {
+    flex: 0 0 auto;
+    width: 58.333333%;
+}
+
+.col-8 {
+    flex: 0 0 auto;
+    width: 66.666667%;
+}
+
+.col-9 {
+    flex: 0 0 auto;
+    width: 75%;
+}
+
+.col-10 {
+    flex: 0 0 auto;
+    width: 83.333333%;
+}
+
+.col-11 {
+    flex: 0 0 auto;
+    width: 91.666667%;
+}
+
+.col-12 {
+    flex: 0 0 auto;
+    width: 100%;
+}
+
+/* sm */
+@media (min-width: 576px) {
+    .col-sm-1 {
+        flex: 0 0 auto;
+        width: 8.333333%;
     }
 
-    .col-md-6 {
-        width: 50%;
+    .col-sm-2 {
+        flex: 0 0 auto;
+        width: 16.666667%;
     }
 
-    .col-md-4 {
-        width: 33.3333%;
-    }
-
-    .col-md-3 {
+    .col-sm-3 {
+        flex: 0 0 auto;
         width: 25%;
     }
 
+    .col-sm-4 {
+        flex: 0 0 auto;
+        width: 33.333333%;
+    }
+
+    .col-sm-5 {
+        flex: 0 0 auto;
+        width: 41.666667%;
+    }
+
+    .col-sm-6 {
+        flex: 0 0 auto;
+        width: 50%;
+    }
+
+    .col-sm-7 {
+        flex: 0 0 auto;
+        width: 58.333333%;
+    }
+
+    .col-sm-8 {
+        flex: 0 0 auto;
+        width: 66.666667%;
+    }
+
+    .col-sm-9 {
+        flex: 0 0 auto;
+        width: 75%;
+    }
+
+    .col-sm-10 {
+        flex: 0 0 auto;
+        width: 83.333333%;
+    }
+
+    .col-sm-11 {
+        flex: 0 0 auto;
+        width: 91.666667%;
+    }
+
+    .col-sm-12 {
+        flex: 0 0 auto;
+        width: 100%;
+    }
+}
+
+/* md */
+@media (min-width: 768px) {
+    .col-md-1 {
+        flex: 0 0 auto;
+        width: 8.333333%;
+    }
+
+    .col-md-2 {
+        flex: 0 0 auto;
+        width: 16.666667%;
+    }
+
+    .col-md-3 {
+        flex: 0 0 auto;
+        width: 25%;
+    }
+
+    .col-md-4 {
+        flex: 0 0 auto;
+        width: 33.333333%;
+    }
+
+    .col-md-5 {
+        flex: 0 0 auto;
+        width: 41.666667%;
+    }
+
+    .col-md-6 {
+        flex: 0 0 auto;
+        width: 50%;
+    }
+
+    .col-md-7 {
+        flex: 0 0 auto;
+        width: 58.333333%;
+    }
+
     .col-md-8 {
-        width: 66.6667%;
+        flex: 0 0 auto;
+        width: 66.666667%;
     }
 
     .col-md-9 {
+        flex: 0 0 auto;
         width: 75%;
     }
 
     .col-md-10 {
-        width: 83.3333%;
+        flex: 0 0 auto;
+        width: 83.333333%;
+    }
+
+    .col-md-11 {
+        flex: 0 0 auto;
+        width: 91.666667%;
     }
 
     .col-md-12 {
+        flex: 0 0 auto;
         width: 100%;
     }
 }
 
-@media (min-width: 1024px) {
-    .col-lg-12 {
-        width: 100%;
+/* lg */
+@media (min-width: 992px) {
+    .col-lg-1 {
+        flex: 0 0 auto;
+        width: 8.333333%;
     }
 
-    .col-lg-6 {
-        width: 50%;
-    }
-
-    .col-lg-4 {
-        width: 33.3333%;
+    .col-lg-2 {
+        flex: 0 0 auto;
+        width: 16.666667%;
     }
 
     .col-lg-3 {
+        flex: 0 0 auto;
         width: 25%;
     }
 
+    .col-lg-4 {
+        flex: 0 0 auto;
+        width: 33.333333%;
+    }
+
+    .col-lg-5 {
+        flex: 0 0 auto;
+        width: 41.666667%;
+    }
+
+    .col-lg-6 {
+        flex: 0 0 auto;
+        width: 50%;
+    }
+
+    .col-lg-7 {
+        flex: 0 0 auto;
+        width: 58.333333%;
+    }
+
     .col-lg-8 {
-        width: 66.6667%;
+        flex: 0 0 auto;
+        width: 66.666667%;
     }
 
     .col-lg-9 {
+        flex: 0 0 auto;
         width: 75%;
     }
 
     .col-lg-10 {
-        width: 83.3333%;
+        flex: 0 0 auto;
+        width: 83.333333%;
+    }
+
+    .col-lg-11 {
+        flex: 0 0 auto;
+        width: 91.666667%;
     }
 
     .col-lg-12 {
+        flex: 0 0 auto;
         width: 100%;
     }
+}
+
+/* Gutters (Bootstrap-like g-*) */
+.g-0 {
+    --gutter: 0px;
+}
+
+.g-1 {
+    --gutter: 8px;
+}
+
+.g-2 {
+    --gutter: 12px;
+}
+
+.g-3 {
+    --gutter: 16px;
+}
+
+.g-4 {
+    --gutter: 24px;
+}
+
+/* Minimal utilities */
+.d-flex {
+    display: flex !important;
+}
+
+.align-items-center {
+    align-items: center !important;
+}
+
+.justify-content-between {
+    justify-content: space-between !important;
+}
+
+.justify-content-center {
+    justify-content: center !important;
 }
