@@ -1,3 +1,9 @@
+{% if product.template_suffix == 'capinha-personalizada' %}
+  {% assign is_custom_case = true %}
+{% else %}
+  {% assign is_custom_case = false %}
+{% endif %}
+
 <section class="naju-pdp">
   <div class="container naju-pdp__grid">
     <!-- GALERIA -->
@@ -50,40 +56,42 @@
           </div>
         </div>
 
-        <!--<div class="naju-accordion">
-          <details open>
-            <summary>Garantia</summary>
-            <div class="naju-accordion__content">
-              {% if product.metafields.custom.garantia != blank %}
-                {{ product.metafields.custom.garantia | metafield_tag }}
-              {% else %}
-                Garantia conforme o produto. Em caso de dúvidas, fale com a loja.
-              {% endif %}
-            </div>
-          </details>
+        <!--
+          <div class="naju-accordion">
+            <details open>
+              <summary>Garantia</summary>
+              <div class="naju-accordion__content">
+                {% if product.metafields.custom.garantia != blank %}
+                  {{ product.metafields.custom.garantia | metafield_tag }}
+                {% else %}
+                  Garantia conforme o produto. Em caso de dúvidas, fale com a loja.
+                {% endif %}
+              </div>
+            </details>
 
-          <details>
-            <summary>Entrega</summary>
-            <div class="naju-accordion__content">
-              {% if product.metafields.custom.entrega != blank %}
-                {{ product.metafields.custom.entrega | metafield_tag }}
-              {% else %}
-                Prazos e valores são calculados no checkout.
-              {% endif %}
-            </div>
-          </details>
+            <details>
+              <summary>Entrega</summary>
+              <div class="naju-accordion__content">
+                {% if product.metafields.custom.entrega != blank %}
+                  {{ product.metafields.custom.entrega | metafield_tag }}
+                {% else %}
+                  Prazos e valores são calculados no checkout.
+                {% endif %}
+              </div>
+            </details>
 
-          <details>
-            <summary>Trocas e devoluções</summary>
-            <div class="naju-accordion__content">
-              {% if shop.refund_policy != blank %}
-                {{ shop.refund_policy.body }}
-              {% else %}
-                Consulte nossa política de trocas e devoluções.
-              {% endif %}
-            </div>
-          </details>
-        </div>-->
+            <details>
+              <summary>Trocas e devoluções</summary>
+              <div class="naju-accordion__content">
+                {% if shop.refund_policy != blank %}
+                  {{ shop.refund_policy.body }}
+                {% else %}
+                  Consulte nossa política de trocas e devoluções.
+                {% endif %}
+              </div>
+            </details>
+          </div>
+        -->
       </div>
     </div>
 
@@ -117,7 +125,7 @@
           {% endif %}
         </div>
 
-        {% form 'product', product, class: 'naju-buy', novalidate: 'novalidate' %}
+        {% form 'product', product, class: 'naju-buy', novalidate: 'novalidate', enctype: 'multipart/form-data' %}
           <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" data-variant-id>
 
           {% unless product.has_only_default_variant %}
@@ -142,6 +150,72 @@
             </div>
           {% endunless %}
 
+          {% if is_custom_case %}
+            <div class="naju-custom">
+              <div class="naju-custom__head">
+                <div class="naju-custom__title">Personalize sua capinha</div>
+                <div class="naju-custom__sub">Envie a arte e informe os detalhes do pedido.</div>
+              </div>
+
+              <div class="naju-custom__grid">
+                <label class="naju-up" for="naju-art-file">
+                  <span class="naju-up__label">1) Envie sua imagem (PNG/JPG)</span>
+                  <span class="naju-up__box" id="naju-art-box">
+                    <span class="naju-up__hint">Clique para selecionar</span>
+                    <img id="naju-art-preview" class="naju-up__preview" alt="" style="display:none;">
+                  </span>
+                  <input
+                    id="naju-art-file"
+                    class="naju-up__input"
+                    type="file"
+                    accept="image/png,image/jpeg"
+                    name="properties[Arte enviada]"
+                    required
+                  >
+                </label>
+
+                <div class="naju-custom__fields">
+                  <div class="naju-field">
+                    <label class="naju-label" for="naju-msg">2) Texto (opcional)</label>
+                    <input
+                      id="naju-msg"
+                      class="naju-input"
+                      type="text"
+                      name="properties[Texto na capinha]"
+                      placeholder="Ex: Nome, frase curta..."
+                    >
+                  </div>
+
+                  <div class="naju-field">
+                    <label class="naju-label" for="naju-notes">3) Observações (opcional)</label>
+                    <textarea
+                      id="naju-notes"
+                      class="naju-textarea"
+                      rows="4"
+                      name="properties[Observações]"
+                      placeholder="Ex: Quero centralizar, sem borda, manter cores..."
+                    ></textarea>
+                  </div>
+
+                  <label class="naju-check">
+                    <input
+                      id="naju-confirm"
+                      type="checkbox"
+                      name="properties[Confirmo que tenho direitos de uso]"
+                      value="Sim"
+                      required
+                    >
+                    <span>Confirmo que tenho autorização para usar essa imagem.</span>
+                  </label>
+
+                  <div id="naju-custom-err" class="naju-custom__err" style="display:none;">
+                    Envie a imagem e marque a confirmação para continuar.
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+
           <div class="naju-buyrow">
             <div class="naju-qty" aria-label="Quantidade">
               <button type="button" class="naju-qty__btn" data-qty-minus aria-label="Diminuir">−</button>
@@ -156,7 +230,7 @@
               <button type="button" class="naju-qty__btn" data-qty-plus aria-label="Aumentar">+</button>
             </div>
 
-            <button class="naju-cta" type="submit">Adicionar ao carrinho</button>
+            <button class="naju-cta" type="submit" id="naju-add-to-cart">Adicionar ao carrinho</button>
           </div>
 
           <div class="naju-mini">
@@ -282,6 +356,7 @@
     optionSelects.forEach(s => s.addEventListener('change', syncVariant));
     syncVariant();
   })();
+
   (function () {
     const input = document.getElementById('naju-cep');
     const btn = document.getElementById('naju-cep-btn');
@@ -300,6 +375,54 @@
       localStorage.setItem('naju_cep', cep);
       hint.textContent = `CEP salvo (${mask(cep)}). O frete será calculado no checkout.`;
     });
+  })();
+
+  (function () {
+    const root = document.querySelector('.naju-pdp');
+    if (!root) return;
+
+    const isCustom = {{ product.template_suffix | json }} === 'capinha-personalizada';
+    if (!isCustom) return;
+
+    const file = document.getElementById('naju-art-file');
+    const preview = document.getElementById('naju-art-preview');
+    const box = document.getElementById('naju-art-box');
+    const confirm = document.getElementById('naju-confirm');
+    const btn = document.getElementById('naju-add-to-cart');
+    const err = document.getElementById('naju-custom-err');
+
+    function sync() {
+      const okFile = file && file.files && file.files.length > 0;
+      const okConfirm = confirm && confirm.checked;
+
+      if (btn) btn.disabled = !(okFile && okConfirm);
+
+      if (err) {
+        err.style.display = (okFile && okConfirm) ? 'none' : 'block';
+      }
+    }
+
+    if (btn) btn.disabled = true;
+
+    if (file) {
+      file.addEventListener('change', () => {
+        const f = file.files && file.files[0];
+        if (!f) { sync(); return; }
+
+        const url = URL.createObjectURL(f);
+        if (preview) {
+          preview.src = url;
+          preview.style.display = 'block';
+        }
+        if (box) box.classList.add('has-file');
+        sync();
+      });
+    }
+
+    if (confirm) confirm.addEventListener('change', sync);
+
+    // Primeira validação
+    sync();
   })();
 </script>
 
