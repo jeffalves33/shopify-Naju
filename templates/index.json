@@ -9,14 +9,14 @@
     "products": {
       "type": "products-naju"
     },
-    "benefits": {
+    /*"benefits": {
       "type": "benefits-naju"
-    }
+    }*/
   },
   "order": [
     "hero",
     "categories",
     "products",
-    "benefits"
+    //"benefits"
   ]
 }

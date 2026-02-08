@@ -1,14 +1,16 @@
 <section class="naju-collection">
   <div class="container">
-    <header class="naju-collection__head">
-      <div>
-        <h1 class="naju-collection__title">{{ collection.title }}</h1>
-        {% if collection.description != blank %}
-          <div class="naju-collection__desc">{{ collection.description }}</div>
-        {% endif %}
+    <header class="naju-collection__head row g-3">
+      <div class="col-12 col-md-8">
+        <div>
+          <h1 class="naju-collection__title">{{ collection.title }}</h1>
+          {% if collection.description != blank %}
+            <div class="naju-collection__desc">{{ collection.description }}</div>
+          {% endif %}
+        </div>
       </div>
 
-      <div class="naju-collection__tools">
+      <div class="naju-collection__tools col-12 col-md-4">
         <label class="naju-select">
           <span class="naju-select__label">Ordenar</span>
           <select id="SortBy" class="naju-select__field">

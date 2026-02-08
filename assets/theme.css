@@ -366,6 +366,25 @@ section {
     align-items: center;
 }
 
+.naju-hero h1 {
+    font-size: 50px;
+    line-height: 1.02;
+    letter-spacing: -1.2px;
+    margin: 18px 0 14px;
+}
+
+.naju-hero__kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: rgba(255, 255, 255, .72);
+    padding: 8px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--stroke);
+    background: rgba(255, 255, 255, .04);
+}
+
 @media (max-width: 768px) {
 
     /* Hero vira 1 coluna (sem reservar espaço do slide) */
@@ -394,18 +413,22 @@ section {
         width: 100%;
         justify-content: center;
     }
-}
 
-.naju-hero__kicker {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 13px;
-    color: rgba(255, 255, 255, .72);
-    padding: 8px 12px;
-    border-radius: 999px;
-    border: 1px solid var(--stroke);
-    background: rgba(255, 255, 255, .04);
+    /* dá mais cara de mobile e deixa o banner mandar */
+    .naju-hero {
+        padding: 28px 0 34px;
+    }
+
+    .naju-hero h1 {
+        font-size: 35px;
+        line-height: 1.05;
+        margin: 14px 0 10px;
+    }
+
+    .naju-hero__kicker {
+        display: none;
+    }
+
 }
 
 .naju-dot {
@@ -414,13 +437,6 @@ section {
     border-radius: 999px;
     background: linear-gradient(135deg, var(--y), var(--b));
     box-shadow: 0 0 0 4px rgba(255, 255, 255, .04);
-}
-
-.naju-hero h1 {
-    font-size: 50px;
-    line-height: 1.02;
-    letter-spacing: -1.2px;
-    margin: 18px 0 14px;
 }
 
 .naju-highlight {
@@ -516,8 +532,24 @@ section {
 }
 
 @media (max-width: 768px) {
+
+    /* mostra o carousel no mobile */
     .naju-hero__media {
-        display: none;
+        display: block;
+        justify-self: stretch;
+        min-height: 0;
+        aspect-ratio: 16 / 9;
+        /* banner bem “ecommerce” */
+        border-radius: 18px;
+    }
+
+    /* sobe o carousel para ser o 1º item do hero no mobile */
+    .naju-hero__wrap> :first-child {
+        grid-row: 2;
+    }
+
+    .naju-hero__media {
+        grid-row: 1;
     }
 }
 
@@ -778,7 +810,9 @@ section {
 }
 
 
-/* ============ NAJU COLLECTION (LISTAGEM) ============ */
+/* =====================
+NAJU COLLECTION (LISTAGEM) 
+======================= */
 .naju-collection {
     padding: 40px 0 70px;
 }
