@@ -1,5 +1,13 @@
 [
   {
+    "name": "theme_info",
+    "theme_name": "Naju Smart",
+    "theme_author": "Prodexy",
+    "theme_version": "1.0.0",
+    "theme_documentation_url": "https://www.najusmart.com.br",
+    "theme_support_email": "suporte@najusmart.com.br"
+  },
+  {
     "name": "Identidade",
     "settings": [
       {
