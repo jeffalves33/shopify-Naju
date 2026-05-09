@@ -2292,3 +2292,23 @@ NAJU COLLECTION (LISTAGEM)
         grid-template-columns: 1fr;
     }
 }
+
+/* =========================
+   NAJU CART - AJAX UPDATE
+========================= */
+
+.naju-cart.is-updating {
+    pointer-events: none;
+}
+
+.naju-cart.is-updating .naju-cart__grid {
+    opacity: .72;
+}
+
+.naju-cart-item__remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background: transparent;
+}
